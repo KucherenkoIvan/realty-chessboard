@@ -13,7 +13,7 @@ router.get('/houses', (req, res) => {
 });
 
 router.get('/entrances', (req, res) => {
-  res.json(entrances[0]);
+  res.json(entrances);
 });
 
 module.exports = router;
