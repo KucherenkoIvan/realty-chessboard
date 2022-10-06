@@ -1,17 +1,25 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div v-bind:key="house" v-for="house in houses">
+    <ChessBoard v-bind:house="house" />
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { getHouses } from './api/api';
+import ChessBoard from './components/ChessBoard/ChessBoard.vue';
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  components: { ChessBoard },
+  data() {
+    return {
+      houses: null,
+    };
+  },
+  async mounted() {
+    this.houses = await getHouses();
+  },
+};
 </script>
 
 <style>
@@ -21,6 +29,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  padding: 20px 40px;
 }
 </style>
