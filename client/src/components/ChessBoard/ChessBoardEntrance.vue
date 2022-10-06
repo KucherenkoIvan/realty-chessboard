@@ -1,5 +1,5 @@
 <template>
-  <div class="entrance">
+  <div class="entrance" v-if="floors.length">
     <h4>{{ entrance.title }}</h4>
     <ChessBoardFloor
       v-for="floor in floors"
@@ -8,6 +8,7 @@
       :maxFlats="maxFlats"
     />
   </div>
+  <div v-else class="entrance-skeleton"></div>
 </template>
 
 <script>
@@ -58,6 +59,16 @@ export default {
 </script>
 
 <style scoped>
+.entrance-skeleton {
+  min-width: 100%;
+  height: auto;
+
+  box-sizing: border-box;
+  border: 1px solid #eaeaea;
+  background-color: #eaeaea;
+  border-radius: 8px;
+  margin: 16px;
+}
 .entrance {
   display: inline-flex;
   flex-flow: column nowrap;

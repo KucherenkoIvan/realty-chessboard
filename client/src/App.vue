@@ -1,6 +1,12 @@
 <template>
-  <div v-bind:key="house" v-for="house in houses">
-    <ChessBoard v-bind:house="house" />
+  Дом:
+  <select v-model="selectedHouse">
+    <option v-for="house in houses" :key="house" :value="house">
+      {{ house }}
+    </option>
+  </select>
+  <div v-if="selectedHouse">
+    <ChessBoard :house="selectedHouse" />
   </div>
 </template>
 
@@ -13,11 +19,13 @@ export default {
   components: { ChessBoard },
   data() {
     return {
+      selectedHouse: null,
       houses: null,
     };
   },
   async mounted() {
     this.houses = await getHouses();
+    this.selectedHouse = this.houses[0];
   },
 };
 </script>

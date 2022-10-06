@@ -46,6 +46,15 @@ export default {
       0,
     );
   },
+  watch: {
+    async house(newHouse) {
+      this.entrances = await getEntrances(newHouse);
+      this.maxFloors = this.entrances.reduce(
+        (prev, curr) => Math.max(prev, curr.floors.length),
+        0,
+      );
+    },
+  },
   name: 'ChessBoard',
   props: {
     house: {

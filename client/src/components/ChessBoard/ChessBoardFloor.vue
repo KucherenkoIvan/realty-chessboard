@@ -36,6 +36,7 @@ export default {
 <style scoped>
 .row {
   gap: 8px;
+  min-height: 24px;
   display: flex;
   flex-flow: row nowrap;
   overflow: visible;
