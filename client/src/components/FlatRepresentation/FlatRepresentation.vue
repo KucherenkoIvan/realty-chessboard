@@ -1,5 +1,5 @@
 <template>
-  <div class="form-wrapper">
+  <div class="flat-representation">
     <h3 class="realty-type">{{ flat.type }}</h3>
     <div class="object-number">номер {{ flat.number }}</div>
     <hr class="divider" />
@@ -20,19 +20,19 @@ export default {
 </script>
 
 <style scoped>
-.form-wrapper {
+.flat-representation {
   display: flex;
   flex-flow: column nowrap;
   align-items: flex-start;
 }
-.realty-type {
+.flat-representation__realty-type {
   white-space: nowrap;
   margin: 8px 0;
 }
-.object-number {
+.flat-representation__object-number {
   color: #666;
 }
-.divider {
+.flat-representation__divider {
   display: block;
   width: 100%;
 }

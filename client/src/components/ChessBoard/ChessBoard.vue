@@ -1,24 +1,19 @@
 <template>
   <div>
-    <h3>House UID: {{ house }}</h3>
-    <div class="board">
-      <div class="floor-nums">
-        <div
-          v-for="n in Array.from(
-            { length: maxFloors },
-            (_, i) => i + 1,
-          ).reverse()"
-          :key="n"
-          class="floor-num"
-        >
+    <div class="chessboard">
+      <div class="chessboard__floor-numbers">
+        <div v-for="n in getFloorNumbers()" :key="n" class="floor-numbers__num">
           {{ n }}
         </div>
       </div>
       <ChessBoardEntrance
         v-for="e in entrances"
-        :key="e"
+        :key="e.id"
         :entrance="e"
         :maxFloors="maxFloors"
+        :selectedFlat="selectedFlat"
+        :applyFilters="applyFilters"
+        @change="selectedFlat = $event"
       />
     </div>
   </div>
@@ -26,6 +21,7 @@
 
 <script>
 import { getEntrances } from '@/api/api';
+import { validateKey, validateNumber } from '@/helpers/validation';
 import ChessBoardEntrance from './ChessBoardEntrance.vue';
 
 export default {
@@ -33,9 +29,19 @@ export default {
     return {
       entrances: [],
       maxFloors: 0,
-      highlightedCellPos: { row: null, col: null },
-      setHighlightIds(row, col) {
-        this.highlightedCellPos = { row, col };
+      selectedFlat: { pipe: null, flat: null, entrance: null },
+      filters: {
+        cost: {
+          min: 0,
+          max: Infinity,
+        },
+        square: {
+          min: 0,
+          max: Infinity,
+        },
+        status: null,
+        planType: null,
+        modifyer: null,
       },
     };
   },
@@ -46,8 +52,38 @@ export default {
       0,
     );
   },
+  methods: {
+    getFloorNumbers() {
+      return Array.from({ length: this.maxFloors }, (_, i) => i + 1).reverse();
+    },
+    applyFilters(flat) {
+      let isValid = validateNumber(
+        this.filters.cost.min,
+        this.filters.cost.max,
+        flat?.cost,
+      );
+
+      isValid &= validateNumber(
+        this.filters.square.min,
+        this.filters.square.max,
+        flat?.square,
+      );
+
+      if (this.filters.status) {
+        isValid &= flat?.status === this.filters.status;
+      }
+      if (this.filters.planType) {
+        isValid &= flat?.planType === this.filters.planType;
+      }
+      if (this.filters.modifyer) {
+        isValid &= validateKey(this.filters.modifyer, flat);
+      }
+      return isValid;
+    },
+  },
   watch: {
     async house(newHouse) {
+      this.selectedFlat = { pipe: null, flat: null, entrance: null };
       this.entrances = await getEntrances(newHouse);
       this.maxFloors = this.entrances.reduce(
         (prev, curr) => Math.max(prev, curr.floors.length),
@@ -67,21 +103,21 @@ export default {
 </script>
 
 <style scoped>
-.floor-nums {
+.chessboard__floor-numbers {
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-end;
   gap: 8px;
   margin-bottom: 16px;
 }
-.floor-num {
+.floor-numbers__num {
   height: 24px;
   width: 24px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.board {
+.chessboard {
   position: relative;
   display: flex;
   flex-flow: row nowrap;

@@ -1,5 +1,5 @@
 <template>
-  <div class="tooltip-content" v-if="show">
+  <div class="tooltip" v-if="show">
     <slot />
   </div>
 </template>
@@ -16,7 +16,7 @@ export default {
 </script>
 
 <style scoped>
-.tooltip-content {
+.tooltip {
   z-index: 1000;
   position: absolute;
   padding: 16px;

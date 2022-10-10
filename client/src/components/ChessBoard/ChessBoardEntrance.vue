@@ -1,14 +1,18 @@
 <template>
-  <div class="entrance" v-if="floors.length">
+  <div class="chessboard__entrance" v-if="floors.length">
     <h4>{{ entrance.title }}</h4>
     <ChessBoardFloor
       v-for="floor in floors"
       :key="floor"
       :floor="floor"
       :maxFlats="maxFlats"
+      :selectedFlat="selectedFlat"
+      :entranceId="entrance.id"
+      :applyFilters="applyFilters"
+      @change="$emit('change', $event)"
     />
   </div>
-  <div v-else class="entrance-skeleton"></div>
+  <div v-else class="chessboard__entrance-skeleton"></div>
 </template>
 
 <script>
@@ -20,10 +24,6 @@ export default {
     return {
       floors: [],
       maxFlats: 0,
-      highlightedCellPos: { row: null, col: null },
-      setHighlightIds(row, col) {
-        this.highlightedCellPos = { row, col };
-      },
     };
   },
   async mounted() {
@@ -53,13 +53,15 @@ export default {
       type: Number,
       required: true,
     },
+    selectedFlat: Object,
+    applyFilters: Function,
   },
   components: { ChessBoardFloor },
 };
 </script>
 
 <style scoped>
-.entrance-skeleton {
+.chessboard__entrance-skeleton {
   min-width: 100%;
   height: auto;
 
@@ -69,7 +71,7 @@ export default {
   border-radius: 8px;
   margin: 16px;
 }
-.entrance {
+.chessboard__entrance {
   display: inline-flex;
   flex-flow: column nowrap;
   justify-content: flex-end;

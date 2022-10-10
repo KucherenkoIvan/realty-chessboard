@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flat"
+    class="chessboard__flat"
     v-if="flat"
     :class="this.getColorByStatus(flat.status)"
     @mouseenter="mouseEnterHandler()"
@@ -12,7 +12,7 @@
       <FlatRepresentation :flat="flat" />
     </ToolTip>
   </div>
-  <div v-else class="flat-skeleton"></div>
+  <div v-else class="chessboard__flat-skeleton"></div>
 </template>
 
 <script>
@@ -38,13 +38,13 @@ export default {
     getColorByStatus(status) {
       switch (status) {
         case 'Бронь':
-          return 'reserved';
+          return 'chessboard__flat_reserved';
         case 'Выданы ключи':
-          return 'keys-out';
+          return 'chessboard__flat_keys-out';
         case 'Свободна':
-          return 'free';
+          return 'chessboard__flat_free';
         default:
-          return 'blank';
+          return 'chessboard__flat_blank';
       }
     },
   },
@@ -59,7 +59,7 @@ export default {
 </script>
 
 <style scoped>
-.flat {
+.chessboard__flat {
   box-sizing: border-box;
   display: inline-flex;
   flex-flow: row nowrap;
@@ -71,22 +71,23 @@ export default {
   width: 96px;
   border: 1px solid #eaeaea;
   color: #fff;
+  cursor: pointer;
 }
-.reserved {
+.chessboard__flat_reserved {
   background-color: #ffab4a;
 }
-.free {
+.chessboard__flat_free {
   background-color: #57c683;
 }
-.keys-out {
+.chessboard__flat_keys-out {
   background-color: #a393eb;
 }
-.blank {
+.chessboard__flat_blank {
   background-color: #e8f7fa;
   border: 1px solid #268cc7;
   color: #268cc7;
 }
-.flat-skeleton {
+.chessboard__flat-skeleton {
   box-sizing: border-box;
   border: 1px solid #eaeaea;
   background-color: #eaeaea;
