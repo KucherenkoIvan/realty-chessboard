@@ -29,6 +29,7 @@ export default {
   animation-duration: 0.2s;
   animation-timing-function: ease;
   animation-name: fadein;
+  opacity: 1 !important;
 }
 
 @keyframes fadein {

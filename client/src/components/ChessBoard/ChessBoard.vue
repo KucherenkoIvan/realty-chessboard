@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="chessboard">
+      <FiltersBlock @change="filters = $event.filterValue" />
       <div class="chessboard__floor-numbers">
         <div v-for="n in getFloorNumbers()" :key="n" class="floor-numbers__num">
           {{ n }}
@@ -22,6 +23,7 @@
 <script>
 import { getEntrances } from '@/api/api';
 import { validateKey, validateNumber } from '@/helpers/validation';
+import FiltersBlock from '../FiltersBlock/FiltersBlock.vue';
 import ChessBoardEntrance from './ChessBoardEntrance.vue';
 
 export default {
@@ -41,7 +43,7 @@ export default {
         },
         status: null,
         planType: null,
-        modifyer: null,
+        misc: null,
       },
     };
   },
@@ -75,8 +77,8 @@ export default {
       if (this.filters.planType) {
         isValid &= flat?.planType === this.filters.planType;
       }
-      if (this.filters.modifyer) {
-        isValid &= validateKey(this.filters.modifyer, flat);
+      if (this.filters.misc) {
+        isValid &= validateKey(this.filters.misc, flat);
       }
       return isValid;
     },
@@ -90,6 +92,9 @@ export default {
         0,
       );
     },
+    filters(w) {
+      console.log(w);
+    },
   },
   name: 'ChessBoard',
   props: {
@@ -98,7 +103,7 @@ export default {
       required: true,
     },
   },
-  components: { ChessBoardEntrance },
+  components: { ChessBoardEntrance, FiltersBlock },
 };
 </script>
 

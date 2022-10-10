@@ -2,13 +2,16 @@
   <div
     class="chessboard__flat"
     v-if="flat"
-    :class="this.getColorByStatus(flat.status)"
+    :class="{
+      [this.getColorByStatus(flat.status)]: true,
+      chessboard__flat_dimmed: disabled,
+    }"
     @mouseenter="mouseEnterHandler()"
     @mouseleave="mouseLeaveHandler()"
   >
     {{ Number(flat.cost / 1e3).toLocaleString() }} т.₽
     <RealtyTypeLabel :type="flat.type" />
-    <ToolTip :show="isPointed">
+    <ToolTip :show="isPointed && !disabled">
       <FlatRepresentation :flat="flat" />
     </ToolTip>
   </div>
@@ -53,6 +56,7 @@ export default {
     flat: {
       type: Object,
     },
+    disabled: Boolean,
   },
   components: { ToolTip, FlatRepresentation, RealtyTypeLabel },
 };
@@ -93,5 +97,10 @@ export default {
   background-color: #eaeaea;
   width: 96px;
   height: 24px;
+}
+
+.chessboard__flat_dimmed {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 </style>

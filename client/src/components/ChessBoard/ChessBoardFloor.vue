@@ -6,8 +6,8 @@
       :flat="flat"
       :class="{
         entrance__item_highlighted: getHighlight(flat),
-        entrance__item_dimmed: !applyFilters?.(flat),
       }"
+      :disabled="!applyFilters?.(flat)"
       @click="handleFlatClick(flat)"
     />
   </div>
@@ -74,9 +74,5 @@ export default {
   border-radius: 4px;
   box-shadow: 0px 0px 2px black;
   filter: contrast(1.2) hue-rotate(30deg);
-}
-
-.entrance__item_dimmed {
-  opacity: 0.5;
 }
 </style>
